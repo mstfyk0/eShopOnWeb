@@ -48,6 +48,7 @@ public class BasketService : IBasketService
     {
         var basketSpec = new BasketWithItemsSpecification(basketId);
         var basket = await _basketRepository.FirstOrDefaultAsync(basketSpec);
+
         if (basket == null) return Result<Basket>.NotFound();
 
         foreach (var item in basket.Items)
@@ -58,6 +59,7 @@ public class BasketService : IBasketService
                 item.SetQuantity(quantity);
             }
         }
+
         basket.RemoveEmptyItems();
         await _basketRepository.UpdateAsync(basket);
         return basket;
